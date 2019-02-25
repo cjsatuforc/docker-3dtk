@@ -7,8 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Docker ubuntu:xenial should have main/universe/multiverse repos already enabled.
 #RUN echo 'deb http://archive.ubuntu.com/ubuntu xenial main universe multiverse' >> /etc/apt/sources.list
 
-RUN apt-get update                                                                      &&\
-    apt-get install -y --no-install-recommends equivs subversion binutils g++ git-core  &&\
+RUN apt-get update                                                  &&\
+    apt-get install -y --no-install-recommends equivs subversion    &&\
+    apt-get install -y --no-install-recommends binutils g++         &&\
+    apt-get install -y git-core                                     &&\
     apt-get clean
 
 RUN svn checkout svn://svn.code.sf.net/p/slam6d/code/trunk slam6d-code  &&\
@@ -17,7 +19,7 @@ RUN svn checkout svn://svn.code.sf.net/p/slam6d/code/trunk slam6d-code  &&\
     dpkg -i 3dtk-build-deps_1.0_all.deb                                 ;\
     apt-get -f install -y --no-install-recommends                       &&\
     apt-get clean                                                       &&\
-    make && make clean                                                  &&\
+    make                                                                &&\
     echo "PATH=${PWD}/bin:\$PATH" >> /etc/profile                       &&\
     echo "PATH=${PWD}/bin:\$PATH" >> /etc/bash.bashrc
 
